@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jaycamu.github.io/x-knowledge/</id>
     <title>x-kownledge</title>
-    <updated>2019-06-24T11:15:52.025Z</updated>
+    <updated>2019-06-24T11:24:59.223Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jaycamu.github.io/x-knowledge/"/>
     <link rel="self" href="https://jaycamu.github.io/x-knowledge//atom.xml"/>
@@ -16,25 +16,21 @@
         <link href="https://jaycamu.github.io/x-knowledge//post/tee-xue-xi-bi-ji">
         </link>
         <updated>2019-06-24T11:13:48.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="op-tee">OP-TEE</h1>
-<p>[TOC]</p>
-<hr>
-<h2 id="1-系统介绍">1 系统介绍</h2>
-<p>​	如果系统芯片支持TrustZone技术且支持TEE，那么TEE将在系统中提供一个安全的运行环境，用于保护系统中的重要数据和安全操作。通常一个完成的系统除了有bootloader和kernel之外还需要有TEE OS。系统启动的时候使用secure boot功能来保护整个系统的image不被恶意篡改。OP-TEE是借助TrustZone技术实现的一种TEE方案。而TEE又属于整个系统中的一个部分，可以看作是与linux kernel同一个层面。</p>
-<h2 id="11-trustzone硬件框架">1.1 TrustZone硬件框架</h2>
-<p>​	TrustZone的技术是为了提高系统的安全性而提出的。而对做到对外部资源和内存资源的硬件隔离就是TrustZone的核心。这些硬件隔离包括：中断隔离，片上RAM和ROM的隔离，片外RAM和ROM的隔离，外围设备的硬件隔离，外部RAM和ROM的隔离。</p>
-<p>​	为实现硬件层面的各种隔离就需要对整个系统的硬件和处理器核做出相应的扩展。这些扩展包括对处理器core的虚拟化实现也即将AMR core的运行状态分为了secure world态和non-secure world态。对总线的扩展，增加安全位读写信号线。对MMU的扩展，增加页表的安全位, 对cache的扩展，增加安全位。以及其他外围组件进行了相应的扩展，提供安全操作权限控制和安全操作信号。本文将粗略介绍各种扩展，然后再如何使用各种扩展来实现硬件层面的各种资源的隔离。</p>
-<h3 id="111-处理器核">1.1.1 处理器核</h3>
-<p>​	在支持TrustZone技术的微处理器中，AMR实现了对cortex的虚拟化，将每个物理的处理器虚拟化成两个虚拟核，一个为安全核，一个普通安全核，也就是一个物理核存在secure wrold态和normal world态。为实现一个物理核上的两种状态的切换，ARM增加了一个monitor模式来实现处理器核两种状态的切换。关于微处理器核的状态切换和划分是通过设置CP15中的SCR寄存器来实现的。secure world和normal world的关系如下图所示。关于normal world与secure world之间的切换过程请参考3.3节。</p>
-<h3 id="112-cache和mmu">1.1.2 cache和mmu</h3>
-<p>​	在支持trustzone的soc上，会对MMU进行虚拟化，使得normal world和secure world都具有完全独立的一份TTBR0， TTBR1，TTBCR。也就是每个世界都具有单独的MMU页表。存放在MMU中的每一条页表描述符都会包含一个NS位来表示被映射的内存是属于安全内存还是非安全内存。虚拟化的MMU共享TLB，同样在TLB中的每一项也同样会打上NS标记，只不过该标记是用来表示该条转换是normal  world转化的还是secure world的转化。</p>
-<p>​	cache也是共享的同样也做了扩展，在cache中的每一项都会按照normal world和secure world的状态打上对应的tag，这就能实现在不同的world下面，处理器只要属性自己world的cache就可以了。</p>
-<h3 id="113-中断-内存-硬件模块权限">1.1.3 中断、内存、硬件模块权限</h3>
-<h2 id="12-op-tee软件框架">1.2 OP-TEE软件框架</h2>
+        <content type="html"><![CDATA[<h1 id="系统介绍">系统介绍</h1>
+<p>如果系统芯片支持TrustZone技术且支持TEE，那么TEE将在系统中提供一个安全的运行环境，用于保护系统中的重要数据和安全操作。通常一个完成的系统除了有bootloader和kernel之外还需要有TEE OS。系统启动的时候使用secure boot功能来保护整个系统的image不被恶意篡改。OP-TEE是借助TrustZone技术实现的一种TEE方案。而TEE又属于整个系统中的一个部分，可以看作是与linux kernel同一个层面。</p>
+<h1 id="trustzone硬件框架">TrustZone硬件框架</h1>
+<p>TrustZone的技术是为了提高系统的安全性而提出的。而对做到对外部资源和内存资源的硬件隔离就是TrustZone的核心。这些硬件隔离包括：中断隔离，片上RAM和ROM的隔离，片外RAM和ROM的隔离，外围设备的硬件隔离，外部RAM和ROM的隔离。</p>
+<p>为实现硬件层面的各种隔离就需要对整个系统的硬件和处理器核做出相应的扩展。这些扩展包括对处理器core的虚拟化实现也即将AMR core的运行状态分为了secure world态和non-secure world态。对总线的扩展，增加安全位读写信号线。对MMU的扩展，增加页表的安全位, 对cache的扩展，增加安全位。以及其他外围组件进行了相应的扩展，提供安全操作权限控制和安全操作信号。</p>
+<h2 id="处理器核">处理器核</h2>
+<p>在支持TrustZone技术的微处理器中，AMR实现了对cortex的虚拟化，将每个物理的处理器虚拟化成两个虚拟核，一个为安全核，一个普通安全核，也就是一个物理核存在secure wrold态和normal world态。为实现一个物理核上的两种状态的切换，ARM增加了一个monitor模式来实现处理器核两种状态的切换。关于微处理器核的状态切换和划分是通过设置CP15中的SCR寄存器来实现的。secure world和normal world的关系如下图所示。关于normal world与secure world之间的切换过程请参考3.3节。</p>
+<h2 id="cache和mmu">cache和mmu</h2>
+<p>在支持trustzone的soc上，会对MMU进行虚拟化，使得normal world和secure world都具有完全独立的一份TTBR0， TTBR1，TTBCR。也就是每个世界都具有单独的MMU页表。存放在MMU中的每一条页表描述符都会包含一个NS位来表示被映射的内存是属于安全内存还是非安全内存。虚拟化的MMU共享TLB，同样在TLB中的每一项也同样会打上NS标记，只不过该标记是用来表示该条转换是normal  world转化的还是secure world的转化。</p>
+<p>cache也是共享的同样也做了扩展，在cache中的每一项都会按照normal world和secure world的状态打上对应的tag，这就能实现在不同的world下面，处理器只要属性自己world的cache就可以了。</p>
+<h1 id="op-tee软件框架">OP-TEE软件框架</h1>
 <p><img src="https://img-blog.csdn.net/20170523113635511?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
-<h2 id="2-tee-os">2 TEE OS</h2>
-<h3 id="21-系统移植">2.1 系统移植</h3>
-<h4 id="211-plat-gx">2.1.1 plat-gx</h4>
+<h1 id="tee-os">TEE OS</h1>
+<h2 id="系统移植">系统移植</h2>
+<h3 id="plat-gx">plat-gx</h3>
 <ul>
 <li>增加一个目录</li>
 </ul>
@@ -49,7 +45,7 @@
 └── sub.mk
 
 </code></pre>
-<h4 id="212-内存规划配置">2.1.2 内存规划配置</h4>
+<h3 id="内存规划配置">内存规划配置</h3>
 <ul>
 <li>platform_config.h</li>
 </ul>
@@ -92,7 +88,7 @@
  64
  65 #endif /* PLATFORM_CONFIG_H */
 </code></pre>
-<h4 id="213-编译">2.1.3 编译</h4>
+<h3 id="编译">编译</h3>
 <ul>
 <li>conf.mk</li>
 <li>make PLATFORM=gx</li>
@@ -133,10 +129,10 @@
  34 $(call force,CFG_CRYPTO_SHA1_ARM64_CE,n)
  35 $(call force,CFG_CRYPTO_AES_ARM64_CE,n)
 </code></pre>
-<h3 id="22-系统启动">2.2 系统启动</h3>
-<h4 id="221-stage1">2.2.1 stage1</h4>
+<h2 id="系统启动">系统启动</h2>
+<h3 id="stage1">stage1</h3>
 <p><img src="https://img-blog.csdn.net/20170523113635511?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
-<p>​	TEEOS是静态链接的，链接脚本可以看core/arch/arm/plat-gx/kern.ld.S内容是#include &quot;../kernel/kern.ld.S&quot; 说明这个链接脚本最终调用core/arch/arm/kernel/kern.ld.S，函数入口是ENTRY(_start),链接地址是CFG_TEE_LOAD_ADDR&gt;。根据入口_start代码在core/arch/arm/kernel/generic_entry_a32.S。</p>
+<p>TEEOS是静态链接的，链接脚本可以看core/arch/arm/plat-gx/kern.ld.S内容是#include &quot;../kernel/kern.ld.S&quot; 说明这个链接脚本最终调用core/arch/arm/kernel/kern.ld.S，函数入口是ENTRY(_start),链接地址是CFG_TEE_LOAD_ADDR&gt;。根据入口_start代码在core/arch/arm/kernel/generic_entry_a32.S。</p>
 <pre><code class="language-C">   1. _start:跳转reset
    
    2. reset
@@ -178,9 +174,9 @@
    
    4. generic_boot_init_primary:调转stage2。
 </code></pre>
-<h4 id="222-stage2">2.2.2 stage2</h4>
+<h3 id="stage2">stage2</h3>
 <p><img src="https://img-blog.csdn.net/20170523114027645?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<p>​	stage2代码在core/arch/arm/kernel/generic_boot.c。</p>
+<p>stage2代码在core/arch/arm/kernel/generic_boot.c。</p>
 <pre><code class="language-C">661 static void init_primary_helper(unsigned long pageable_part,
 662 ▸       ▸       ▸       ▸       unsigned long nsec_entry, unsigned long fdt)
 663 {//第二个参数是内核的地址，第三个参数是fdt地址。
@@ -211,7 +207,7 @@
 688 ▸       DMSG(&quot;Primary CPU switching to normal world boot\n&quot;);
 689 }
 </code></pre>
-<h4 id="223-服务">2.2.3 服务</h4>
+<h3 id="服务">服务</h3>
 <ol>
 <li>service_init、initcall1</li>
 </ol>
@@ -227,7 +223,7 @@
 <ul>
 <li>tee_fs_init_key_manager： 安全存储key生成</li>
 </ul>
-<h4 id="224-驱动">2.2.4 驱动</h4>
+<h3 id="驱动">驱动</h3>
 <ol>
 <li>driver_init、initcall3：芯片驱动模块初始化</li>
 <li>driver_init_late、initcall4：自定义驱动device结构模块初始化</li>
@@ -235,8 +231,8 @@
 <pre><code class="language-C"> 16 #define tee_device_register(...) static const TEE_Device __head \
  17         __used __section(&quot;.device&quot;) = { __VA_ARGS__ }
 </code></pre>
-<h3 id="23-ta">2.3 TA</h3>
-<h4 id="231-system">2.3.1 system</h4>
+<h2 id="ta">TA</h2>
+<h3 id="system">system</h3>
 <pre><code class="language-C"> 62 #define pseudo_ta_register(...) static const struct pseudo_ta_head __head \
  63                         __used __section(&quot;ta_head_section&quot;) = { __VA_ARGS__ }
 </code></pre>
@@ -249,13 +245,13 @@
 <li>socket: core/arch/arm/tee/pta_socket.c</li>
 <li>invoke_tests.pta: core/arch/arm/pta/pta_invoke_test.c</li>
 </ul>
-<h4 id="233-sign">2.3.3 sign</h4>
-<h2 id="3-ree">3 REE</h2>
-<h3 id="31-用户">3.1 用户</h3>
-<p>​	当CA接口处于userspace层面，整个调用过程需要经过kernel space层面， linux driver层面， Monitor态中断处理层面， TEE OS kernel层面， TEE的userspace层面（TA）。</p>
+<h3 id="sign">sign</h3>
+<h1 id="ree">REE</h1>
+<h2 id="用户">用户</h2>
+<p>当CA接口处于userspace层面，整个调用过程需要经过kernel space层面， linux driver层面， Monitor态中断处理层面， TEE OS kernel层面， TEE的userspace层面（TA）。</p>
 <p><img src="https://img-blog.csdn.net/20170511210145320" alt="img"></p>
-<h4 id="311-libteec">3.1.1 libteec</h4>
-<p>​	libteec库是OP-TEE提供给用户在linux userspace层面调用的接口实现,libteec代码的具体实现存放在optee_client/libteec目录下，OP-TEE提供给linux端使用的接口源代码的实现存放在optee_client/libteec/src/tee_client_api.c</p>
+<h3 id="libteec">libteec</h3>
+<p>libteec库是OP-TEE提供给用户在linux userspace层面调用的接口实现,libteec代码的具体实现存放在optee_client/libteec目录下，OP-TEE提供给linux端使用的接口源代码的实现存放在optee_client/libteec/src/tee_client_api.c</p>
 <pre><code class="language-C">shenjch@vm:v1.9-dev/tee/optee_client/libteec&gt; tree
 .
 ├── include
@@ -296,9 +292,9 @@
 <li>当在libteec和tee_supplicant打开了对应的设备之后，如果需要release设备，则可以调用该设备的release来实现，在userspace层面调用完成之后，最终会调用到OP-TEE驱动的release成员变量tee_release。</li>
 <li>在libteec中获取OP-TEE版本信息，创建和关闭session，调用TA，分配和注册共享内存和fd以及释放共享内存，接收来自OP-TEE的请求以及回复数据给OP-TEE都是通过ioctl来完成的。在libteec和tee_supplicant中通过带上对应的参数调用ioctl函数来实现对应的操作需求，最终会调用到OP-TEE驱动中file_operation结构体变量tee_fops变量中的tee_ioctl函数</li>
 </ul>
-<h4 id="312-tee-supplicant">3.1.2 tee-supplicant</h4>
-<p>​	tee_supplicant的主要作用是使OP-TEE能够通过tee_supplicant来访问REE端文件系统中的资源，例如加载存放在文件系统中的TA镜像到TEE中，对REE端数据库的操作，对EMMC中RPMB分区的操作，提供socket通信等。 其源代码optee_client/tee-supplicant目录中。编译之后会生成一个名字为tee_supplicant的可执行文件，该可执行文件在REE启动的时候会作为一个后台程序被自动启动，而且常驻于系统中。</p>
-<p>​	tee_supplicant可执行文件在Linux启动的时候会被作为后台程序启动。启动的动作存放在build/init.d.optee文件中，其内容如下：</p>
+<h3 id="tee-supplicant">tee-supplicant</h3>
+<p>tee_supplicant的主要作用是使OP-TEE能够通过tee_supplicant来访问REE端文件系统中的资源，例如加载存放在文件系统中的TA镜像到TEE中，对REE端数据库的操作，对EMMC中RPMB分区的操作，提供socket通信等。 其源代码optee_client/tee-supplicant目录中。编译之后会生成一个名字为tee_supplicant的可执行文件，该可执行文件在REE启动的时候会作为一个后台程序被自动启动，而且常驻于系统中。</p>
+<p>tee_supplicant可执行文件在Linux启动的时候会被作为后台程序启动。启动的动作存放在build/init.d.optee文件中，其内容如下：</p>
 <pre><code class="language-shell">#!/bin/sh  
 #  
 # /etc/init.d/optee  
@@ -326,14 +322,14 @@ case &quot;$1&quot; in
     ;;  
 esac  
 </code></pre>
-<p>​	tee_supplicant启动后作为Linux中的一个后台程序运行，起到处理RPC请求 service的作用。通过类似于C/S的方式为OP-TEE提供对REE端文件系统的操作。该可执行文件的源代码的入口函数存放在optee_client/tee-supplicant/src/tee_supplicant.c文件中。</p>
-<p>​	tee_supplicant中的loop循环</p>
+<p>tee_supplicant启动后作为Linux中的一个后台程序运行，起到处理RPC请求 service的作用。通过类似于C/S的方式为OP-TEE提供对REE端文件系统的操作。该可执行文件的源代码的入口函数存放在optee_client/tee-supplicant/src/tee_supplicant.c文件中。</p>
+<p>tee_supplicant中的loop循环</p>
 <p><img src="https://img-blog.csdn.net/20170608121635411?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<p>​	加载TA image到共享内存，当TA请求的func ID为RPC_CMD_LOAD_TA时，tee_supplicant将会到文件系统中将TA镜像的内容读取到共享内存中。该操作是通过调用load_ta函数来实现的，该函数定义在tee_supplicant.c文件中</p>
+<p>加载TA image到共享内存，当TA请求的func ID为RPC_CMD_LOAD_TA时，tee_supplicant将会到文件系统中将TA镜像的内容读取到共享内存中。该操作是通过调用load_ta函数来实现的，该函数定义在tee_supplicant.c文件中</p>
 <p><img src="https://img-blog.csdn.net/20170608141446987?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<h3 id="32-驱动">3.2 驱动</h3>
-<h4 id="321-加载">3.2.1 加载</h4>
-<p>​	OP-TEE驱动主要作用是REE与TEE端进行数据交互的桥梁作用,tee_supplicant和libteec调用接口之后几乎都会首先通过系统调用陷入到kernel space，然后kernel根据传递的参数找到OP-TEE驱动，并命中驱动的operation结构体中的具体处理函数来完成实际的操作，对于OP-TEE驱动，一般都会触发SMC调用，并带参数进入到ARM cortex的monitor模式，在monitor模式中对执行normal world和secure world的切换，待状态切换完成之后，会将驱动端带入的参数传递給OP-TEE中的thread进行进一步的处理。OP-TEE驱动的源代码存放在linux/drivers/tee目录:</p>
+<h2 id="驱动-2">驱动</h2>
+<h3 id="加载">加载</h3>
+<p>OP-TEE驱动主要作用是REE与TEE端进行数据交互的桥梁作用,tee_supplicant和libteec调用接口之后几乎都会首先通过系统调用陷入到kernel space，然后kernel根据传递的参数找到OP-TEE驱动，并命中驱动的operation结构体中的具体处理函数来完成实际的操作，对于OP-TEE驱动，一般都会触发SMC调用，并带参数进入到ARM cortex的monitor模式，在monitor模式中对执行normal world和secure world的切换，待状态切换完成之后，会将驱动端带入的参数传递給OP-TEE中的thread进行进一步的处理。OP-TEE驱动的源代码存放在linux/drivers/tee目录:</p>
 <pre><code class="language-c">shenjch@vm:v1.9-dev/linux-4.4.25/drivers/tee&gt; tree .
 .
 ├── Kconfig
@@ -353,7 +349,7 @@ esac
 ├── tee_shm.c
 └── tee_shm_pool.c
 </code></pre>
-<p>​	OP-TEE驱动的加载过程分为两部分，第一部分是创建class和分配设备号，第二部分就是probe过程。在正式介绍之前首先需要明白两个linux kernel中加载驱动的函数：subsys_initcall和module_init函数。OP-TEE驱动的第一部分是调用subsys_initcall函数来实现，而第二部分则是调用module_init来实现。整个OP-TEE驱动的初始化流程图如下图所示:</p>
+<p>OP-TEE驱动的加载过程分为两部分，第一部分是创建class和分配设备号，第二部分就是probe过程。在正式介绍之前首先需要明白两个linux kernel中加载驱动的函数：subsys_initcall和module_init函数。OP-TEE驱动的第一部分是调用subsys_initcall函数来实现，而第二部分则是调用module_init来实现。整个OP-TEE驱动的初始化流程图如下图所示:</p>
 <p><img src="https://img-blog.csdn.net/20170608202139541?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
 <ul>
 <li>tee_init函数初始化设备号和class,
@@ -367,7 +363,7 @@ esac
 </ul>
 </li>
 </ul>
-<h4 id="322-tee设备数据结构">3.2.2 tee设备数据结构</h4>
+<h3 id="tee设备数据结构">tee设备数据结构</h3>
 <pre><code class="language-C">static const struct file_operations tee_fops = {  
     .owner = THIS_MODULE,   //驱动属于哪儿谁  
     .open = tee_open,   //驱动文件的open操作的具体实现的函数指针  
@@ -401,11 +397,11 @@ static struct dma_buf_ops tee_shm_dma_buf_ops = {
     .mmap = tee_shm_op_mmap,    //dma共享内存进行地址映射  
 };  
 </code></pre>
-<h2 id="4-模式切换">4 模式切换</h2>
-<h3 id="41-中断向量表">4.1 中断向量表</h3>
-<p>​	在一个完整的系统中都会存在中断，如果支持trustzone并且具有TEE的支持，则每个CPU将具有两个种状态：secure world, non-sercure world，通过write_scr的NS bit来切换secure world, non-sercure world，plat_cpu_reset_early进入secure world，.sm_ret_to_nsec返回non-sercure world。在ARM中secure world和non-secure world都具monitor模式，有独立的VBAR寄存器和中断向量表。而当CPU处于monitor态时，CPU将具有独立的中断向量表和MVBAR寄存器。而且在secure world态时需要使能FIQ的支持，而在non-secure world态时则需要禁止FIQ的支持。其在两种态之间的切换的时候需要做到对应的上下文的保存和恢复操作。</p>
-<h4 id="411-vbar配置">4.1.1 VBAR配置</h4>
-<p>​	在初始化阶段TEE的中断向量的加载和配置将会通过thread_init_vbar函数来实现，从初始化起始到配置中断向量表的整个调用过程如下：_start--&gt; b reset--&gt;b reset_primary--&gt;bl generic_boot_init_primary--&gt;init_primary_helper--&gt;thread_init_per_cpu—&gt;thread_init_vbar；thread_init_vbar函数为汇编代码内容如下，定义在optee_os_core/arch/arm/kernel/thread_a32.S文件中：</p>
+<h1 id="模式切换">模式切换</h1>
+<h2 id="中断向量表">中断向量表</h2>
+<p>在一个完整的系统中都会存在中断，如果支持trustzone并且具有TEE的支持，则每个CPU将具有两个种状态：secure world, non-sercure world，通过write_scr的NS bit来切换secure world, non-sercure world，plat_cpu_reset_early进入secure world，.sm_ret_to_nsec返回non-sercure world。在ARM中secure world和non-secure world都具monitor模式，有独立的VBAR寄存器和中断向量表。而当CPU处于monitor态时，CPU将具有独立的中断向量表和MVBAR寄存器。而且在secure world态时需要使能FIQ的支持，而在non-secure world态时则需要禁止FIQ的支持。其在两种态之间的切换的时候需要做到对应的上下文的保存和恢复操作。</p>
+<h3 id="vbar配置">VBAR配置</h3>
+<p>在初始化阶段TEE的中断向量的加载和配置将会通过thread_init_vbar函数来实现，从初始化起始到配置中断向量表的整个调用过程如下：_start--&gt; b reset--&gt;b reset_primary--&gt;bl generic_boot_init_primary--&gt;init_primary_helper--&gt;thread_init_per_cpu—&gt;thread_init_vbar；thread_init_vbar函数为汇编代码内容如下，定义在optee_os_core/arch/arm/kernel/thread_a32.S文件中：</p>
 <pre><code class="language-C">FUNC thread_init_vbar , :  
 UNWIND( .fnstart)  
     /* Set vector (VBAR) */  
@@ -429,8 +425,8 @@ UNWIND( .cantunwind)
 UNWIND( .fnend)  
 END_FUNC thread_vect_table  
 </code></pre>
-<h4 id="412-mvbar配置">4.1.2 MVBAR配置</h4>
-<p>​	在OP-TEE的启动的过程中，将会调用init_sec_mon函数来完成monitor态的相关初始化，该函数被定义在optee_os/core/arch/arm/kernel/thread.c文件中，从初始化的时候调用的流程如下：_start--&gt; b reset--&gt;b reset_primary--&gt;bl generic_boot_init_primary--&gt;init_primary_helper—&gt;init_sec_mon。该函数会调用sm_init来进行monitor的相关初始化，sm_init函数定义在optee_os/core/arch/arm/sm/sm_a32.S文件中,内容如下：</p>
+<h3 id="mvbar配置">MVBAR配置</h3>
+<p>在OP-TEE的启动的过程中，将会调用init_sec_mon函数来完成monitor态的相关初始化，该函数被定义在optee_os/core/arch/arm/kernel/thread.c文件中，从初始化的时候调用的流程如下：_start--&gt; b reset--&gt;b reset_primary--&gt;bl generic_boot_init_primary--&gt;init_primary_helper—&gt;init_sec_mon。该函数会调用sm_init来进行monitor的相关初始化，sm_init函数定义在optee_os/core/arch/arm/sm/sm_a32.S文件中,内容如下：</p>
 <pre><code class="language-C">static void init_sec_mon(size_t pos __maybe_unused)  
 {  
 #if !defined(CFG_WITH_ARM_TRUSTED_FW)  
@@ -471,21 +467,21 @@ UNWIND( .cantunwind)
 UNWIND( .fnend)  
 END_FUNC sm_vect_table 
 </code></pre>
-<h4 id="413-fiq处理">4.1.3 FIQ处理</h4>
+<h3 id="fiq处理">FIQ处理</h3>
 <p>在OP-TEE的启动的过程中，将会调用init_sec_mon函数来完成monitor态的相关初始化，该函数被定义在optee_os/core/arch/arm/kernel/thread.c文件中，从初始化的时候调用的流程如下：</p>
 <p>_start--&gt; b reset--&gt;b reset_primary--&gt;bl generic_boot_init_primary--&gt;init_primary_helper--&gt;init_sec_mon</p>
 <p><img src="https://img-blog.csdn.net/20170613153313684?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<h4 id="414-irq处理">4.1.4 IRQ处理</h4>
+<h3 id="irq处理">IRQ处理</h3>
 <p><img src="https://img-blog.csdn.net/20170528013655282?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<h3 id="42-monitor模式处理">4.2 monitor模式处理</h3>
-<h4 id="421-secure-world">4.2.1 secure world</h4>
+<h2 id="monitor模式处理">monitor模式处理</h2>
+<h3 id="secure-world">secure world</h3>
 <p><img src="https://img-blog.csdn.net/20170528203118437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<h4 id="421-non-secure-world">4.2.1 non secure world</h4>
+<h3 id="non-secure-world">non secure world</h3>
 <p><img src="https://img-blog.csdn.net/20170528203445672?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<h3 id="43-linux到tee切换">4.3 linux到tee切换</h3>
-<p>​	libteec和tee_supplicant调用接口之后最终会调用到OP-TEE驱动来触发对应的SMC操作。在OP-TEE驱动中触发SMC操作的方法是调用arm_smccc_smc(a0, a1, a2, a3, a4, a5, a6, a7, res)来实现，其中在REE端需要传递給TEE侧的数据被存放在a0~a7中。调用上述函数自后，CPU中的cortex就会切换到monitor模式，进入monitor模式之后首先会去获取MVBAR寄存器中存放的monitor模式的中断向量表地址，然后查找monitor模式中断向量表的sm_smc_entry函数来对请求进行处理。在sm_smc_entry中对当前SCR寄存器中的NS为来判定请求是来自于secure world还是normal world。如果请求来自于REE侧，则程序会执行smc_from_nsec分支完成SCR中NS的设置并调转到sm_from_nsec函数继续执行。该判定是通过判定r0寄存器中存放的数据中的第31个bit的值是1还是0，如果bit31的值是1，则表面该smc请求时快速smc(fast smc)，如果该值为0则是标准smc请求。</p>
+<h2 id="linux到tee切换">linux到tee切换</h2>
+<p>libteec和tee_supplicant调用接口之后最终会调用到OP-TEE驱动来触发对应的SMC操作。在OP-TEE驱动中触发SMC操作的方法是调用arm_smccc_smc(a0, a1, a2, a3, a4, a5, a6, a7, res)来实现，其中在REE端需要传递給TEE侧的数据被存放在a0~a7中。调用上述函数自后，CPU中的cortex就会切换到monitor模式，进入monitor模式之后首先会去获取MVBAR寄存器中存放的monitor模式的中断向量表地址，然后查找monitor模式中断向量表的sm_smc_entry函数来对请求进行处理。在sm_smc_entry中对当前SCR寄存器中的NS为来判定请求是来自于secure world还是normal world。如果请求来自于REE侧，则程序会执行smc_from_nsec分支完成SCR中NS的设置并调转到sm_from_nsec函数继续执行。该判定是通过判定r0寄存器中存放的数据中的第31个bit的值是1还是0，如果bit31的值是1，则表面该smc请求时快速smc(fast smc)，如果该值为0则是标准smc请求。</p>
 <p><img src="https://img-blog.csdn.net/20170703175022801?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<p>​	在OP-TEE中用于处理各种来自外部或者的monitor模式请求的入口函数都存放在OP-TEE的线程向量表thread_vector_table中。该项量的实现在optee_os/core/arch/arm/kernel/thread_a32.S文件中</p>
+<p>在OP-TEE中用于处理各种来自外部或者的monitor模式请求的入口函数都存放在OP-TEE的线程向量表thread_vector_table中。该项量的实现在optee_os/core/arch/arm/kernel/thread_a32.S文件中</p>
 <pre><code class="language-C">167 /*
 168  * Vector table supplied to ARM Trusted Firmware (ARM-TF) at
 169  * initialization.  Also used when compiled with the internal monitor, but
@@ -509,10 +505,10 @@ END_FUNC sm_vect_table
 187 UNWIND( .fnend)
 188 END_FUNC thread_vector_table
 </code></pre>
-<p>​	注意该线程向量表与OP-TEE的中断处理向量表thread_vect_table是不一样的。thread_vector_table 属于线程级别，会被monitor模式或者其他中断处理函数调用到，而thread_vect_table才是OP-TEE存放在VBAR寄存器中的中断向量表。当在secure world状态下产生了FIQ事件时，将会调用中断向量表thread_vect_table中的FIQ中断处理函数，然后才会调用到thread_vector_table中给的vector_fiq_entry来执行FIQ的后续处理。</p>
+<p>注意该线程向量表与OP-TEE的中断处理向量表thread_vect_table是不一样的。thread_vector_table 属于线程级别，会被monitor模式或者其他中断处理函数调用到，而thread_vect_table才是OP-TEE存放在VBAR寄存器中的中断向量表。当在secure world状态下产生了FIQ事件时，将会调用中断向量表thread_vect_table中的FIQ中断处理函数，然后才会调用到thread_vector_table中给的vector_fiq_entry来执行FIQ的后续处理。</p>
 <pre><code>tee_entry_std（get_cmd_buffer这里将shm共享内存的物理地址专为虚拟地址，这个ree通过smc传递过来的参数存放地址物理空间4k在ree预留）-&gt;entry_invoke_command（copy_in_params）-&gt;tee_ta_invoke_command-&gt;res = sess-&gt;ctx-&gt;ops-&gt;enter_invoke_cmd(sess, cmd, param, err);-&gt;user_ta_enter_invoke_cmd-&gt;user_ta_enter(tee_mmu_map_param将shm的物理地址专为ta的虚拟地址)-&gt;thread_enter_user_mode(utc-&gt;entry_func, utc-&gt;is_32bit,根据自己的uuid找到自己的接口)-&gt;.entry.ptr32 = { .lo = (uint32_t)__utee_entry },-&gt;__utee_entry-&gt;entry_invoke_command-&gt;TA_InvokeCommandEntryPoint
 </code></pre>
-<h4 id="431-fast-smc">4.3.1 fast smc</h4>
+<h3 id="fast-smc">fast smc</h3>
 <pre><code class="language-C">LOCAL_FUNC vector_fast_smc_entry , :  
 UNWIND( .fnstart)  
 UNWIND( .cantunwind)  
@@ -595,7 +591,7 @@ void tee_entry_fast(struct thread_smc_args *args)
     }  
 } 
 </code></pre>
-<h4 id="432-std-smc">4.3.2 std smc</h4>
+<h3 id="std-smc">std smc</h3>
 <pre><code class="language-C">LOCAL_FUNC vector_std_smc_entry , :  
 UNWIND( .fnstart)  
 UNWIND( .cantunwind)  
@@ -683,9 +679,9 @@ void __weak tee_entry_std(struct thread_smc_args *smc_args)
         mobj_free(mobj);
 }
 </code></pre>
-<h2 id="5-ta开发">5 TA开发</h2>
+<h1 id="ta开发">TA开发</h1>
 <p><img src="https://img-blog.csdn.net/20170510115636564?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2h1YWlmZW5neXVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
-<h2 id="6-内存">6 内存</h2>
+<h1 id="内存">内存</h1>
 <p>安全空间28M，非安全空间4M，安全空间分为TEE_RAM和TA_RAM，非安全空间SHMEM。core/arch/arm/plat-gx/platform_config.h</p>
 <pre><code>/*
  * TEE/TZ DRAM layout:
@@ -847,11 +843,6 @@ static TEE_Result alloc_temp_sec_mem(size_t size, struct mobj **mobj,
         return TEE_SUCCESS;
 }
 </code></pre>
-<ul>
-<li>libteec内存组织形式</li>
-<li>linux driver shm pool管理</li>
-<li>tee 内存分配</li>
-</ul>
 ]]></content>
     </entry>
 </feed>
