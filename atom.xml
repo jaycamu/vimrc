@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jaycamu.github.io/x-knowledge/</id>
     <title>x-kownledge</title>
-    <updated>2020-02-26T06:12:41.017Z</updated>
+    <updated>2020-02-26T09:40:34.840Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jaycamu.github.io/x-knowledge/"/>
-    <link rel="self" href="https://jaycamu.github.io/x-knowledge//atom.xml"/>
+    <link rel="self" href="https://jaycamu.github.io/x-knowledge/atom.xml"/>
     <subtitle>知止而后有定</subtitle>
-    <logo>https://jaycamu.github.io/x-knowledge//images/avatar.png</logo>
-    <icon>https://jaycamu.github.io/x-knowledge//favicon.ico</icon>
+    <logo>https://jaycamu.github.io/x-knowledge/images/avatar.png</logo>
+    <icon>https://jaycamu.github.io/x-knowledge/favicon.ico</icon>
     <rights>All rights reserved 2020, x-kownledge</rights>
     <entry>
         <title type="html"><![CDATA[《沃顿商学院最受欢迎的谈判课》]]></title>
-        <id>https://jaycamu.github.io/x-knowledge//post/lesslesswo-dun-shang-xue-yuan-zui-shou-huan-ying-de-tan-pan-ke-greatergreater</id>
-        <link href="https://jaycamu.github.io/x-knowledge//post/lesslesswo-dun-shang-xue-yuan-zui-shou-huan-ying-de-tan-pan-ke-greatergreater">
+        <id>https://jaycamu.github.io/x-knowledge/post/lesslesswo-dun-shang-xue-yuan-zui-shou-huan-ying-de-tan-pan-ke-greatergreater/</id>
+        <link href="https://jaycamu.github.io/x-knowledge/post/lesslesswo-dun-shang-xue-yuan-zui-shou-huan-ying-de-tan-pan-ke-greatergreater/">
         </link>
         <updated>2019-10-16T04:57:43.000Z</updated>
         <content type="html"><![CDATA[<h1 id="一-换种思路">一、 换种思路</h1>
@@ -200,8 +200,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[冬吴相对论读书笔记]]></title>
-        <id>https://jaycamu.github.io/x-knowledge//post/dong-wu-xiang-dui-lun-du-shu-bi-ji</id>
-        <link href="https://jaycamu.github.io/x-knowledge//post/dong-wu-xiang-dui-lun-du-shu-bi-ji">
+        <id>https://jaycamu.github.io/x-knowledge/post/dong-wu-xiang-dui-lun-du-shu-bi-ji/</id>
+        <link href="https://jaycamu.github.io/x-knowledge/post/dong-wu-xiang-dui-lun-du-shu-bi-ji/">
         </link>
         <updated>2019-10-16T04:38:51.000Z</updated>
         <content type="html"><![CDATA[<h1 id="002-专注的幸福">002 专注的幸福</h1>
@@ -505,8 +505,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[关于]]></title>
-        <id>https://jaycamu.github.io/x-knowledge//post/about</id>
-        <link href="https://jaycamu.github.io/x-knowledge//post/about">
+        <id>https://jaycamu.github.io/x-knowledge/post/about/</id>
+        <link href="https://jaycamu.github.io/x-knowledge/post/about/">
         </link>
         <updated>2019-01-25T11:09:48.000Z</updated>
         <content type="html"><![CDATA[<p>这是关于的页面，可以在这里向世界介绍你！</p>
