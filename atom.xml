@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jaycamu.github.io/x-knowledge/</id>
     <title>x-kownledge</title>
-    <updated>2020-02-26T06:11:09.939Z</updated>
+    <updated>2020-02-26T06:12:41.017Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jaycamu.github.io/x-knowledge/"/>
     <link rel="self" href="https://jaycamu.github.io/x-knowledge//atom.xml"/>
@@ -501,6 +501,15 @@
 <li>刚才呢和老吴啊我们俩聊到一个话题，就是说如果一个人或者一个小孩子在童年甚至是幼年的时候，被迫或者是有幸的接受了一种倾听的训练，那么对于这个人来说呢，给他带来的是一个人生巨大的财富。我从这个地方呢我想起一个事儿，如果一个女孩子面对两个男孩子，一个男孩子你说到一半他已经有很多观点了，啊，你这个对或者不对，然后加以评注。另外一个人呢，他听你把话说完，然后隔了一秒钟之后才会问你一个问题，你会觉得哪一个比较有吸引力？</li>
 <li>《菜根谭》里有一句话说：“觉人之诈，而不形于色，此中有无限乐趣”。就是说当你听到别人在骗你的时候啊，一点都不反应出来，这里头有无限的乐趣。</li>
 </ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://jaycamu.github.io/x-knowledge//post/about</id>
+        <link href="https://jaycamu.github.io/x-knowledge//post/about">
+        </link>
+        <updated>2019-01-25T11:09:48.000Z</updated>
+        <content type="html"><![CDATA[<p>这是关于的页面，可以在这里向世界介绍你！</p>
 ]]></content>
     </entry>
 </feed>
