@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jaycamu.github.io/x-knowledge/</id>
     <title>x-kownledge</title>
-    <updated>2020-03-02T05:10:01.681Z</updated>
+    <updated>2020-03-02T05:10:44.766Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jaycamu.github.io/x-knowledge/"/>
     <link rel="self" href="https://jaycamu.github.io/x-knowledge/atom.xml"/>
@@ -16,8 +16,7 @@
         <link href="https://jaycamu.github.io/x-knowledge/post/lesslesslun-yu-bie-cai-greatergreater/">
         </link>
         <updated>2020-03-02T05:05:59.000Z</updated>
-        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://jaycamu.github.io/x-knowledge//post-images/1583125779708.jpg" alt="" loading="lazy"></figure>
-<h2 id="学而第一">学而第一</h2>
+        <content type="html"><![CDATA[<h2 id="学而第一">学而第一</h2>
 <blockquote>
 <p>《学而》,包括了孔门当年教学的目的、态度、宗旨、方法等等。个人求学的宗旨,内在的修养。</p>
 </blockquote>
